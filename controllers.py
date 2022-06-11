@@ -19,7 +19,7 @@ def get_all():
 
 def get_last():
     cur = conn.cursor()
-    cur.execute('SELECT * from "TERMINAL_DATA" ORDER BY "lastTransaction" DESC LIMIT 1')
+    cur.execute('select * from "TERMINAL_DATA" ORDER BY id DESC LIMIT 1;')
     record = cur.fetchall()
     print(record)
     return record
