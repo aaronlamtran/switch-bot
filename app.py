@@ -1,5 +1,6 @@
 import os
 from slack_sdk import WebClient
+#from slack-client import WebClient
 from slack_sdk.errors import SlackApiError
 from pathlib import Path
 from dotenv import load_dotenv
@@ -36,4 +37,4 @@ def get_transactions():
 
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=5001)
+  app.run(host='0.0.0.0', debug=True)
