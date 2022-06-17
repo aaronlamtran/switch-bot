@@ -23,8 +23,9 @@ def get_last():
     cur = conn.cursor()
     cur.execute('SELECT * from "TERMINAL_DATA" ORDER BY "id" DESC LIMIT 1')
     record = cur.fetchall()
-    print(record)
-    return record
+    print(record[0])
+    print(type(record[0]))
+    return record[0]
 
 if __name__ == '__main__':
-    get_all()
+    get_last()
