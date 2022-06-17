@@ -22,7 +22,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World! ... From Switch Bot</p>"
+    return "<p>Hello, World! ... Switch Bot</p>"
 
 
 @app.route("/slashcommands", methods=["GET", "POST"])
