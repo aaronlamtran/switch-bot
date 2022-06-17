@@ -30,13 +30,13 @@ def get_transactions():
     data = request.form
     print(data)
     index, date, term_id, balance, dtr, last_trans = get_last()
-    return f"""<p>
-    {index}<br/>
-    term_id: {term_id}<br/>
-    balance: {balance}<br/>
-    dtr: {dtr} days<br/>
-    last txn: {last_trans}<br/>
-    </p>"""
+    return f"""
+    {index}
+    term_id: {term_id}
+    balance: {balance}
+    dtr: {dtr} days
+    last txn: {last_trans}
+    """
 
 
 if __name__ == "__main__":
