@@ -9,6 +9,7 @@ from flask import Flask
 from flask import Response
 from flask import request
 from controllers import get_all, get_last
+from frenchie_controllers import get_waitlist, email_one
 import json
 
 load_dotenv()
@@ -37,6 +38,12 @@ def get_transactions():
     dtr: {dtr} days
     last txn: {last_trans}
     """
+
+@app.route("/frenchie", methods=["GET"])
+def email_frenchie():
+    email_payload =  get_waitlist()
+    email_one(email_payload)
+    return 'sent'
 
 
 if __name__ == "__main__":
