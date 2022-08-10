@@ -31,6 +31,8 @@ def get_waitlist():
     for document in cursor:
         _id, name, email, phone, dog, waitlistPosition, createdAt, updatedAt = itemgetter('_id', 'name', 'email', 'phone', 'dog', 'waitlistPosition', 'createdAt', 'updatedAt')(document)
         # print(name, email, phone, createdAt)
+        if not phone:
+          phone = '#_NOT_PROVIDED'
         waitlist_str += name + space + email + space + phone + space  + str(createdAt) + '\n'
 
         # mylist.append(document)
