@@ -52,7 +52,7 @@ def email_one(payload):
     msg['From'] = EMAIL_ADDRESS
     msg['To'] = ", ".join(recipients)
     message = payload
-    msg['Subject'] = f'someone joined!'
+    msg['Subject'] = 'Someone joined the TFC waitlist!'
     msg.set_content(message)
     print(msg)
     server = smtplib.SMTP_SSL('smtp.mail.yahoo.com', 465)
