@@ -1,5 +1,6 @@
 from curses import curs_set
 from pydoc import doc
+from re import S
 from pymongo import MongoClient
 import pymongo
 from dotenv import load_dotenv
@@ -11,6 +12,7 @@ from email.message import EmailMessage
 load_dotenv()
 
 SEND_TO_EMAIL_ADDRESS = os.getenv('SEND_TO_EMAIL_ADDRESS')
+SEND_TO_EMAIL_ADDRESS_B = os.getenv('SEND_TO_EMAIL_ADDRESS_B')
 EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS')
 EMAIL_PW = os.getenv('EMAIL_PW')
 CONNECTION_STRING = os.getenv('FRENCHIE_DB_URI')
@@ -41,9 +43,12 @@ def get_waitlist():
     return waitlist_str
 
 def email_one(payload):
+    recipients = []
+    recipients.append(SEND_TO_EMAIL_ADDRESS)
+    recipients.append(SEND_TO_EMAIL_ADDRESS_B)
     msg = EmailMessage()
     msg['From'] = EMAIL_ADDRESS
-    msg['To'] = SEND_TO_EMAIL_ADDRESS
+    msg['To'] = ", ".join(recipients)
     message = payload
     msg['Subject'] = f'someone joined!'
     msg.set_content(message)
