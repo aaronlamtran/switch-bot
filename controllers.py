@@ -1,9 +1,9 @@
-import psycopg2
-import os
 # import smtplib
 from dotenv import load_dotenv
 # from email.message import EmailMessage
 load_dotenv()
+import psycopg2
+import os
 
 DB_USER = os.getenv('DB_USER')
 DB_PW = os.getenv('DB_PW')
