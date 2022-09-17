@@ -6,6 +6,7 @@ from slack_sdk.errors import SlackApiError
 from pathlib import Path
 from dotenv import load_dotenv
 from flask import Flask
+from flask import send_file
 from flask import Response
 from flask import request
 from controllers import get_all, get_last
@@ -23,7 +24,11 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World! ... Switch Bot</p>"
+    return "<p>Switch Bot</p>"
+
+@app.route("/nfl")
+def feed_scoreboard():
+    return send_file('live_scores.txt')
 
 
 @app.route("/slashcommands", methods=["GET", "POST"])
