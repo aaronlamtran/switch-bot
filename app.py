@@ -11,6 +11,7 @@ from flask import Response
 from flask import request
 from controllers import get_all, get_last
 from frenchie_controllers import get_waitlist, email_one
+from fan import Fan
 import json
 
 load_dotenv()
@@ -20,6 +21,7 @@ SLACK_TOKEN = os.getenv("SLACK_TOKEN")
 client = WebClient(token=SLACK_TOKEN)
 
 app = Flask(__name__)
+bedroom_fan = Fan()
 
 
 @app.route("/")
@@ -49,6 +51,17 @@ def email_frenchie():
     email_payload =  get_waitlist()
     email_one(email_payload)
     return 'sent'
+
+# iot
+@app.route("/status")
+def get_status():
+    return bedroom_fan.get_status_fan()
+
+@app.route("/status", methods=['POST'])
+def set_status():
+    req = request.json
+    return bedroom_fan.set_status(req)
+
 
 
 if __name__ == "__main__":
