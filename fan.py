@@ -3,11 +3,13 @@ import os
 import json
 import configparser
 config = configparser.ConfigParser()
+from pathlib import Path
 from subprocess import call
 from dotenv import load_dotenv
 load_dotenv()
 
 pwd = os.environ.get('pwd')
+usr = os.environ.get('usr')
 
 
 
@@ -38,7 +40,9 @@ class Fan:
         self.build_command()
 
     def run_cmd(self, cmd):
-        call('echo {} | sudo -S {}'.format(pwd, cmd), shell=True)
+        cmd = '''echo {} | su -c '{}' {}'''.format(pwd, cmd, usr)
+        print('COMMAND: ', cmd)
+        call(cmd , shell=True)
 
     def get_status_fan(self):
         with open('settings.json', 'r') as r:
@@ -67,26 +71,25 @@ class Fan:
             old_status[param] = new_status
 
         newest_status = old_status
-        with open('settings.json', 'w', encoding='utf-8') as w:
-            json.dump(newest_status, w, ensure_ascii=False, indent=4, sort_keys=True)
+#        with open('settings.json', 'w', encoding='utf-8') as w:
+#            json.dump(newest_status, w, ensure_ascii=False, indent=4, sort_keys=True)
         return newest_status
 
     def build_command(self):
         self.commands = {}
         for button, binary in self.ceiling.items():
-            self.commands[button] = f'sudo {self.bit_bang} -f {self.frequency_mhz} -0 {self.zero_length_ns} -1 {self.one_wvl_ns} -r {self.repeat} -p {self.pause_ns} {self.preamble}{binary}'.split(
-                ' ')
+            self.commands[button] = f'sudo -u root {self.bit_bang} -f {self.frequency_mhz} -0 {self.zero_length_ns} -1 {self.one_wvl_ns} -r {self.repeat} -p {self.pause_ns} {self.preamble}{binary}'
         return self.commands
 
     def toggle_light(self):
         print('self.toggle_light invoked')
         cmd = self.commands['light_toggle']
-        return_code = subprocess.run(cmd).returncode
-        # self.run_cmd(cmd)
-        if return_code == 1:  # err
-            return 'err'
-        if return_code == 0:
-            return 'success'
+        # return_code = subprocess.run(cmd).returncode
+        self.run_cmd(cmd)
+        # if return_code == 1:  # err
+        #     return 'err'
+        # if return_code == 0:
+        #     return 'success'
         return cmd
 
     def set_fan_off(self):
@@ -123,4 +126,5 @@ class Fan:
         print(cmd)
         subprocess.run(cmd)
         return cmd
+
 
